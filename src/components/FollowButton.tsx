@@ -14,10 +14,10 @@ function FollowButton({userId}: {userId: string}) {
         setIsLoading(true);
         try {
             const result = await toggleFollow(userId);
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
             } else {
-                toast.error(result.message);
+                toast.error(result?.message || "An error occurred while following the user.");
             }
         } catch (error) {
             console.log("Error following user: ", error);
