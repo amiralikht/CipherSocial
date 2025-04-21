@@ -9,6 +9,7 @@ import { ImageIcon, Loader2Icon, SendIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { createPost } from '@/actions/post.action';
 import toast from 'react-hot-toast';
+import ImageUpload from './ImageUpload';
 
 
 function CreatePost() {
@@ -49,7 +50,18 @@ function CreatePost() {
                         <Textarea placeholder="What's on your mind...?" className='min-h-[100px] resize-none border-none focus-visible:ring-0 text-base shadow-none !bg-transparent p-2' value={content} onChange={(e)=>setContent(e.target.value)} disabled={isPosting}/>
                     </div>
                 </div>
-                {/* TODO: HANDLE IMAGE UPLOADS */}
+                {(showImageUpload && !image) && (
+                    <div className="border rounded-lg p-4">
+                        <ImageUpload
+                        endpoint="postImage"
+                        value={image}
+                        onChange={(url) => {
+                            setImage(url);
+                            if (!url) setShowImageUpload(false);
+                        }}
+                        />
+                    </div>
+                )}
                 <div className="flex border-t pt-4 w-full">
                     <div className='flex space-x-2 w-full items-center justify-between'>
                         <Button type='button' variant={"ghost"} size="sm" className='text-muted-foreground hover:text-gray-800 gap-2' onClick={() => setShowImageUpload(!showImageUpload)} disabled={isPosting}>
