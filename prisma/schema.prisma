@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  // output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -32,8 +32,8 @@ model User {
   comments  Comment[] // One-to-many relation with Comment
   likes     Like[] // One-to-many relation with Like
   // bookmarks  Bookmark[]
-  followers Follows[]   @relation("UserFollowers") // Users that follow this user
-  following Follows[]   @relation("UserFollowing") // Users that this user follows
+  followers Follows[]   @relation("following") // Users that follow this user
+  following Follows[]   @relation("follower") // Users that this user follows
   // Notifications
   notifications Notification[] @relation("UserNotifications") //Notifications received by the user
   notificationsCreated Notification[] @relation("NotificationsCreator") //Notifications triggered by a user
@@ -43,7 +43,7 @@ model User {
 model Comment {
   id        String   @id @default(cuid())
   content   String?
-  authorId    String
+  authorId  String
   postId    String
   createdAt DateTime @default(now())
   notifications Notification[] // Notifications triggered by this comment
@@ -109,10 +109,9 @@ model Follows {
   followingId String
   createdAt   DateTime @default(now())
   // Relational
-  follower    User     @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
-  following   User     @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+  follower    User     @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User     @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
 
-  @@unique([followerId, followingId]) // A user can follow another user only once
   @@id([followerId, followingId]) // Composite primary key
   @@index([followerId, followingId]) // Index on followerId and followingId for faster queries
 }

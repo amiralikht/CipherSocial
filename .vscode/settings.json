@@ -3,5 +3,7 @@
         "activityBar.background": "#053432",
         "titleBar.activeBackground": "#074846",
         "titleBar.activeForeground": "#ECFDFC"
-    }
+    },
+    "WillLuke.nextjs.addTypesOnSave": true,
+    "WillLuke.nextjs.hasPrompted": true
 }
